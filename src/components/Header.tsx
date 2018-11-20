@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 
 import FBOLogo from './fbo_logo.png';
+import 'src/css/Header.css';
 
 export const Header: React.StatelessComponent<{}> = () => {
     return(
         <Navbar className='header-wrapper' >
             <Navbar.Header className="header">
                 <Navbar.Brand>
-                    <img src={FBOLogo} height='70'/>
+                    <a href="#"><img src={FBOLogo} height="80"/></a>
                 </Navbar.Brand>
             </Navbar.Header>
         </Navbar>
