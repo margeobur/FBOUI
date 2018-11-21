@@ -1,7 +1,15 @@
 .searchPageHeader {
-    margin-top: 0px
+    margin-top: 0px;
 }
+
+.parentContainer {
+    display: flex;
+    text-align: center;
+    padding-top: 75px;
+  }
 
 .searchContainer {
     max-width: 750px;
+    vertical-align: middle;
+    display: inline-block;
 }

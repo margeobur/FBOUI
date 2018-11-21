@@ -9,7 +9,7 @@ export const Header: React.StatelessComponent<{}> = () => {
         <Navbar className='header-wrapper' >
             <Navbar.Header className="header">
                 <Navbar.Brand>
-                    <a href="#"><img src={FBOLogo} height="80"/></a>
+                    <a href="/"><img src={FBOLogo} height="80"/></a>
                 </Navbar.Brand>
             </Navbar.Header>
         </Navbar>

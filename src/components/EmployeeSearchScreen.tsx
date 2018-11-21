@@ -1,19 +1,22 @@
 import * as React from 'react';
-import { PageHeader, Button, FormGroup, FormControl, Form, Col } from 'react-bootstrap';
+import { PageHeader, Button } from 'react-bootstrap';
 import 'src/css/Search.css';
+import { History } from 'history';
+import CustomerSearchForm from './reusables/CustomerSearchForm';
 
-interface SearchScreenState {
-    value: string
+
+
+interface SearchScreenProps {
+    history: History;
+    searchValue: string;
+    handleSearch: (searchValue: string) => void
 }
 
-export default class EmployeeSearchScreen extends React.Component<any, SearchScreenState> {
-    constructor(props: any, context: any) {
-        super(props, context);
-        this.state = {
-            value: ''
-        };
+export default class EmployeeSearchScreen extends React.Component<SearchScreenProps> {
+    constructor(props: any) {
+        super(props);
 
-        this.handleChange = this.handleChange.bind(this);
+        this.submitForm = this.submitForm.bind(this);
     }
 
     public render() {
@@ -22,29 +25,17 @@ export default class EmployeeSearchScreen extends React.Component<any, SearchScr
                 <PageHeader className="searchPageHeader">
                     Employee Portal
                 </PageHeader>
-                <div className='container searchContainer' >
-                    <Form horizontal={true} >
-                        <FormGroup controlId="CustomerSearch" >
-                            <Col sm={10}>
-                                <FormControl
-                                    type="text"
-                                    value={this.state.value}
-                                    placeholder="Search customers..."
-                                    onChange={this.handleChange}
-                                />
-                            </Col>
-                            <Col sm={1}>
-                                <Button type="submit">Search</Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
+                <div className="container parentContainer">
+                    <CustomerSearchForm onSubmit={this.submitForm} />
                 </div>
+                <Button href="/addCustomers">Add customers</Button>
             </div>
-
         );
     }
 
-    private handleChange(e: any) {
-        this.setState({ value: e.target.value });
+    public submitForm(e: any) {
+        e.preventDefault();
+        this.props.handleSearch(e.target.value)
+        this.props.history.push("/customers");
     }
 }
