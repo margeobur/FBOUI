@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import EmployeeSearchScreen from './components/EmployeeSearchScreen';
 import { History } from 'history';
 import EmployeeCustomerList from './components/EmployeeCustomerList';
+import { LinkedCustomer } from './components/reusables/customer';
 
 interface AppProps {
   history: History;
@@ -13,9 +14,7 @@ interface AppProps {
 
 interface AppState {
   searchValue: string,
-  oldDBCustomers: any[],
-  newDBCustomers: any[],
-  links: any[]
+  links: LinkedCustomer[]
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -23,9 +22,33 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
         this.state = {
             searchValue: '',
-            oldDBCustomers: [],
-            newDBCustomers: [],
-            links: []
+            links: [{
+                oldData: {
+                  id: 4881095,
+                  username: "jwhales29",
+                  firstName: "Jimmy",
+                  surname: "Whales",
+                  address: "San Francisco",
+                  accounts: [{number: "4294249149325"}]
+                }
+              },
+              {
+                oldData: {
+                  id: 1643788,
+                  username: "emusk10",
+                  firstName: "Elon",
+                  surname: "Musk",
+                  address: "Los Angeles",
+                  accounts: [{number: "47416843392569"}]
+                },
+                newData: {
+                  id: "0015-7983-2945",
+                  username: "elon_musk",
+                  givenNames: ["Elon", "Reeve", "Musk"],
+                  email: "emusk@gmail.com",
+                  accounts: [{number: "47416843392569"}]
+                }
+              }]
         };
 
     this.handleMainSearch = this.handleMainSearch.bind(this);
@@ -84,6 +107,8 @@ class App extends React.Component<AppProps, AppState> {
       <EmployeeCustomerList
         history={this.props.history}
         searchValue={this.state.searchValue}
+        customers={this.state.links}
+        handleSearch={this.handleMainSearch}
         {...props}
       />
     );
