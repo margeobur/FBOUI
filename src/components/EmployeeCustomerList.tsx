@@ -8,7 +8,9 @@ interface CustomerListProps {
     history: History,
     searchValue: string,
     customers: LinkedCustomer[],
+    selectedCustomer: LinkedCustomer,
     handleSearch: (searchValue: string) => void
+    selectCustomer: (customer: LinkedCustomer) => void
 }
 
 export default class EmployeeCustomerList extends React.Component <CustomerListProps> {
@@ -69,25 +71,45 @@ export default class EmployeeCustomerList extends React.Component <CustomerListP
         for (let i = 0; i < customerList.length; i++) {
             const cells = [];
             const customer = customerList[i];
-            if(customer.oldData) {
-                cells.push(<td key={"oId" + i}>{customer.oldData.id}</td>);
-                cells.push(<td key={"oName" + i}>{customer.oldData.firstName + " " + customer.oldData.surname}</td>);
 
+            if(customer === this.props.selectedCustomer) {
+                cells.push(
+                    <td colSpan={4} key={"whole" + i}>
+                        <div>
+                            <p>
+                                selected customer
+                            </p>
+                        </div>
+                    </td>
+                )
             } else {
-                cells.push(<td key={"oId" + i}>&nbsp;</td>);
-                cells.push(<td key={"oName" + i}>&nbsp;</td>);
+                if(customer.oldData) {
+                    cells.push(<td key={"oId" + i}>{customer.oldData.id}</td>);
+                    cells.push(<td key={"oName" + i}>{customer.oldData.firstName + " " + customer.oldData.surname}</td>);
+
+                } else {
+                    cells.push(<td key={"oId" + i}>&nbsp;</td>);
+                    cells.push(<td key={"oName" + i}>&nbsp;</td>);
+                }
+
+                if(customer.newData) {
+                    cells.push(<td key={"nId" + i}>{customer.newData.id}</td>);
+                    cells.push(<td key={"nName" + i}>{customer.newData.givenNames.join(" ")}</td>);
+                } else {
+                    cells.push(<td key={"nId" + i}>&nbsp;</td>);
+                    cells.push(<td key={"nName" + i}>&nbsp;</td>);
+                }
             }
 
-            if(customer.newData) {
-                cells.push(<td key={"nId" + i}>{customer.newData.id}</td>);
-                cells.push(<td key={"nName" + i}>{customer.newData.givenNames.join(" ")}</td>);
-            } else {
-                cells.push(<td key={"nId" + i}>&nbsp;</td>);
-                cells.push(<td key={"nName" + i}>&nbsp;</td>);
-            }
-
-            table.push(<tr key={i+""} id={i+""}>{cells}</tr>);
+            table.push(<tr key={i+""} id={i+""} onClick= {this.selectRow.bind(this, i)}>{cells}</tr>);
         }
         return table
+    }
+
+    private selectRow(index: any) {
+        const selectedCustomer = this.props.customers[index]
+        if (selectedCustomer != null) {
+            this.props.selectCustomer(selectedCustomer)
+        }
     }
 }
