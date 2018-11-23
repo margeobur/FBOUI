@@ -12,6 +12,11 @@ interface CustomerListProps {
 }
 
 export default class EmployeeCustomerList extends React.Component <CustomerListProps> {
+    constructor(props: any) {
+        super(props);
+
+        this.submitForm = this.submitForm.bind(this);
+    }
 
     public render() {
         return(

@@ -16,6 +16,11 @@ export interface NewDBCustomer {
 }
 
 export interface LinkedCustomer {
+    link: {
+        id: string,
+        oldID: number,
+        newID: string
+    },
     oldData?: OldDBCustomer,
     newData?: NewDBCustomer
 }

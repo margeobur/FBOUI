@@ -28,6 +28,7 @@ export default class EmployeeSearchScreen extends React.Component<SearchScreenPr
                 <div className="container parentContainer">
                     <CustomerSearchForm onSubmit={this.submitForm} />
                 </div>
+                <Button href="/customers" bsStyle="link">Straight to customers</Button>
                 <Button href="/addCustomers">Add customers</Button>
             </div>
         );

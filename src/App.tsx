@@ -14,7 +14,7 @@ interface AppProps {
 
 interface AppState {
   searchValue: string,
-  links: LinkedCustomer[]
+  customers: LinkedCustomer[]
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -22,37 +22,12 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
         this.state = {
             searchValue: '',
-            links: [{
-                oldData: {
-                  id: 4881095,
-                  username: "jwhales29",
-                  firstName: "Jimmy",
-                  surname: "Whales",
-                  address: "San Francisco",
-                  accounts: [{number: "4294249149325"}]
-                }
-              },
-              {
-                oldData: {
-                  id: 1643788,
-                  username: "emusk10",
-                  firstName: "Elon",
-                  surname: "Musk",
-                  address: "Los Angeles",
-                  accounts: [{number: "47416843392569"}]
-                },
-                newData: {
-                  id: "0015-7983-2945",
-                  username: "elon_musk",
-                  givenNames: ["Elon", "Reeve", "Musk"],
-                  email: "emusk@gmail.com",
-                  accounts: [{number: "47416843392569"}]
-                }
-              }]
+            customers: []
         };
 
     this.handleMainSearch = this.handleMainSearch.bind(this);
-    this.doSearch = this.doSearch.bind(this);
+    this.fetchCustomers = this.fetchCustomers.bind(this);
+    this.fetchCustomers("", "");
   }
 
   public render() {
@@ -71,35 +46,46 @@ class App extends React.Component<AppProps, AppState> {
 
   public handleMainSearch(searchVal: string) { 
     this.setState( {searchValue: searchVal });
-    this.doSearch(searchVal, "old");
+    this.fetchCustomers(searchVal, "old");
   }
 
-  private doSearch(searchValue: string, searchType: string) {
-    alert("feature unimplemented");
-    console.log('searching memes: ' + searchValue + ' as ' + searchType);
+  private fetchCustomers(searchValue: string, searchType: string) {
+    alert("searching unimplemented");
+    console.log('searching customers: ' + searchValue + ' as ' + searchType);
 
-    // let url = "";
-    // fetch(url, {
-		// 	method: 'GET'
-		// })
-		// .then(res => res.json())
-		// .then(json => {
-		// 	let currentCustomer = json[0]
-		// 	if (currentCustomer === undefined) {
-		// 		console.log(json)
-		// 		currentCustomer = {"id":0, "title":"No memes (╯°□°）╯︵ ┻━┻","url":"","tags":"try a different tag","uploaded":"","width":"0","height":"0"}
-    //   }
+    const url = "https://fbo-api.azurewebsites.net/api/customerlinks";
+    fetch(url, {
+			method: 'GET'
+		})
+		.then(res => res.json())
+		.then(json => {
+			let currentCustomer = json[0]
+			if (currentCustomer === undefined) {
+        console.log("no customers received");
+				console.log(json);
+				currentCustomer = {
+            oldData: {
+              id: 1643788,
+              firstName: "No",
+              surname: "customers"
+            }
+        }
+      }
+      console.log(json);
+      this.setState({
+          customers: json
+      });
       
-    //   if(searchType.startsWith("old")) {
-		// 	  this.setState({
+      // if(searchType.startsWith("old")) {
+			//   this.setState({
 				
-    //     })
-    //   } else if(searchType.startsWith("new")) {
+      //   })
+      // } else if(searchType.startsWith("new")) {
 
-    //   } else if(searchType.startsWith("both")) {
+      // } else if(searchType.startsWith("both")) {
 
-    //   }
-		// });
+      // }
+		});
   }
 
   private CustomerList = (props: any) => {
@@ -107,7 +93,7 @@ class App extends React.Component<AppProps, AppState> {
       <EmployeeCustomerList
         history={this.props.history}
         searchValue={this.state.searchValue}
-        customers={this.state.links}
+        customers={this.state.customers}
         handleSearch={this.handleMainSearch}
         {...props}
       />
