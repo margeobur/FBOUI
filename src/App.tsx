@@ -7,6 +7,7 @@ import EmployeeSearchScreen from './components/EmployeeSearchScreen';
 import { History } from 'history';
 import EmployeeCustomerList from './components/EmployeeCustomerList';
 import { LinkedCustomer } from './components/reusables/customer';
+import EditCustomers from './components/EditCustomers';
 
 interface AppProps {
   history: History;
@@ -41,6 +42,7 @@ class App extends React.Component<AppProps, AppState> {
           <Switch>
             <Route exact={true} path='/' render={ this.EmpSearchScreen }/>
             <Route path='/customers' render={ this.CustomerList } />
+            <Route path='/addCustomers' render={this.EditCustomerList } />
           </Switch>
         </main>
       </div>
@@ -82,6 +84,7 @@ class App extends React.Component<AppProps, AppState> {
       }
       console.log(json);
       this.setState({
+          currentCustomer,
           customers: json
       });
       this.populateBasicDummyDataInternally();
@@ -115,6 +118,17 @@ class App extends React.Component<AppProps, AppState> {
   private EmpSearchScreen = (props: any) => {
     return (
       <EmployeeSearchScreen
+        history={this.props.history}
+        searchValue={this.state.searchValue}
+        handleSearch={this.handleMainSearch}
+        {...props}
+      />
+    );
+  }
+
+  private EditCustomerList = (props: any) => {
+    return (
+      <EditCustomers
         history={this.props.history}
         searchValue={this.state.searchValue}
         handleSearch={this.handleMainSearch}

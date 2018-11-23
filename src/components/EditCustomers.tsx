@@ -3,11 +3,13 @@ import { PageHeader, Row, Grid, Table } from 'react-bootstrap';
 import { History } from 'history';
 import CustomerSearchForm from './reusables/CustomerSearchForm';
 import { LinkedCustomer } from './reusables/customer';
+import CustomerDetail from './reusables/CustomerDetail';
 
 interface EditCustomersProps {
     history: History,
     searchValue: string,
     customers: LinkedCustomer[],
+    currentCustomer: LinkedCustomer,
     handleSearch: (searchValue: string) => void
 }
 
@@ -27,6 +29,9 @@ export default class EditCustomers extends React.Component <EditCustomersProps> 
                 <Grid>
                     <Row>
                         <CustomerSearchForm onSubmit={this.submitForm}/>
+                    </Row>
+                    <Row>
+                        <CustomerDetail currentCustomer={this.props.customers[0]}/>
                     </Row>
                     <Row>
                         <Table striped hover>

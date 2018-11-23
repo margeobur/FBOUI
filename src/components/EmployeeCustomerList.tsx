@@ -3,6 +3,7 @@ import { History } from 'history';
 import { PageHeader, Grid, Row, Table } from 'react-bootstrap';
 import CustomerSearchForm from './reusables/CustomerSearchForm';
 import { LinkedCustomer } from './reusables/customer';
+import CustomerDetail from './reusables/CustomerDetail';
 
 interface CustomerListProps {
     history: History,
@@ -30,6 +31,11 @@ export default class EmployeeCustomerList extends React.Component <CustomerListP
                     <Row>
                         <CustomerSearchForm onSubmit={this.submitForm}/>
                     </Row>
+                   
+                    {this.props.selectedCustomer && <Row>
+                        
+                        <CustomerDetail currentCustomer={this.props.selectedCustomer}/>
+                    </Row>}
                     <Row>
                         <Table striped hover>
                             <thead>
@@ -72,33 +78,21 @@ export default class EmployeeCustomerList extends React.Component <CustomerListP
             const cells = [];
             const customer = customerList[i];
 
-            if(customer === this.props.selectedCustomer) {
-                cells.push(
-                    <td colSpan={4} key={"whole" + i}>
-                        <div>
-                            <p>
-                                selected customer
-                            </p>
-                        </div>
-                    </td>
-                )
+            if(customer.oldData) {
+                cells.push(<td key={"oId" + i}>{customer.oldData.id}</td>);
+                cells.push(<td key={"oName" + i}>{customer.oldData.firstName + " " + customer.oldData.surname}</td>);
+
             } else {
-                if(customer.oldData) {
-                    cells.push(<td key={"oId" + i}>{customer.oldData.id}</td>);
-                    cells.push(<td key={"oName" + i}>{customer.oldData.firstName + " " + customer.oldData.surname}</td>);
+                cells.push(<td key={"oId" + i}>&nbsp;</td>);
+                cells.push(<td key={"oName" + i}>&nbsp;</td>);
+            }
 
-                } else {
-                    cells.push(<td key={"oId" + i}>&nbsp;</td>);
-                    cells.push(<td key={"oName" + i}>&nbsp;</td>);
-                }
-
-                if(customer.newData) {
-                    cells.push(<td key={"nId" + i}>{customer.newData.id}</td>);
-                    cells.push(<td key={"nName" + i}>{customer.newData.givenNames.join(" ")}</td>);
-                } else {
-                    cells.push(<td key={"nId" + i}>&nbsp;</td>);
-                    cells.push(<td key={"nName" + i}>&nbsp;</td>);
-                }
+            if(customer.newData) {
+                cells.push(<td key={"nId" + i}>{customer.newData.id}</td>);
+                cells.push(<td key={"nName" + i}>{customer.newData.givenNames.join(" ")}</td>);
+            } else {
+                cells.push(<td key={"nId" + i}>&nbsp;</td>);
+                cells.push(<td key={"nName" + i}>&nbsp;</td>);
             }
 
             table.push(<tr key={i+""} id={i+""} onClick= {this.selectRow.bind(this, i)}>{cells}</tr>);
